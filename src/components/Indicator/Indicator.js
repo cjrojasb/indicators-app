@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   createStyles,
-  makeStyles,
   Paper,
   Table,
   TableBody,
@@ -25,39 +24,31 @@ const TableCellHead = withStyles((theme) =>
   })
 )(TableCell);
 
-const useStyles = makeStyles({
-  my3: {
-    margin: '3rem 0',
-  },
-});
-
 export default function Indicator({ nombre, serie, unidad_medida, ...rest }) {
-  const classes = useStyles();
+  const renderList = () => {
+    return serie.map((data, key) => (
+      <TableRow key={key}>
+        <TableCell component='th' scope='data'>
+          <Date date={data.fecha} />
+        </TableCell>
+        <TableCell align='right' component='th' scope='data'>
+          {data.valor}
+        </TableCell>
+      </TableRow>
+    ));
+  };
 
   return (
-    serie !== undefined && (
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCellHead>Fecha</TableCellHead>
-              <TableCellHead align='right'>Valor</TableCellHead>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {serie.map((data, key) => (
-              <TableRow key={key}>
-                <TableCell component='th' scope='data'>
-                  <Date date={data.fecha} />
-                </TableCell>
-                <TableCell align='right' component='th' scope='data'>
-                  {data.valor}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    )
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCellHead>Fecha</TableCellHead>
+            <TableCellHead align='right'>Valor</TableCellHead>
+          </TableRow>
+        </TableHead>
+        <TableBody>{renderList()}</TableBody>
+      </Table>
+    </TableContainer>
   );
 }

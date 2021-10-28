@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Redirect } from 'react-router-dom';
 import { Container } from '@material-ui/core';
 
 import { useIndicator } from 'hooks/useIndicator';
@@ -10,9 +10,11 @@ import Loading from 'components/Shared/Loading/Loading';
 import Title from 'components/Shared/Title/Title';
 
 export default function ShowPage({ match }) {
-  const { loading, indicator } = useIndicator(match.params.code);
+  const { loading, indicator, notFound } = useIndicator(match.params.code);
 
-  if (loading) return <Loading />;
+  if (notFound) return <Redirect to='/error' />;
+
+  if (loading || Object.keys(indicator).length === 0) return <Loading />;
 
   return (
     <>

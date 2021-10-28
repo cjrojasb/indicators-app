@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
   createStyles,
@@ -44,12 +44,83 @@ export default function IndicatorList({ indicators }) {
   const [chartDialog, setChartDialog] = useState();
   const classes = useStyles();
 
-  const handleDetailDialog = (value) => {
-    setDetailDialog(detailDialog === value ? false : value);
-  };
+  const handleDetailDialog = useCallback(
+    (value) => {
+      setDetailDialog(detailDialog === value ? false : value);
+    },
+    [detailDialog]
+  );
 
-  const handleChartDialog = (value) => {
-    setChartDialog(chartDialog === value ? false : value);
+  const handleChartDialog = useCallback(
+    (value) => {
+      setChartDialog(chartDialog === value ? false : value);
+    },
+    [chartDialog]
+  );
+
+  const renderList = () => {
+    return indicators.map((indicator, index) => (
+      <Fragment key={index}>
+        <TableRow key={indicator.codigo}>
+          <TableCell>{indicator.nombre} </TableCell>
+          <TableCell>{indicator.unidad_medida}</TableCell>
+          <TableCell>
+            <Date date={indicator.fecha} />
+          </TableCell>
+          <TableCell align='center'>
+            <IconButton
+              aria-label='detail-dialog'
+              onClick={() => {
+                handleDetailDialog(index);
+              }}
+            >
+              <InfoIcon />
+            </IconButton>
+          </TableCell>
+          <TableCell align='center'>
+            <IconButton
+              aria-label='chart-dialog'
+              onClick={() => {
+                handleChartDialog(index);
+              }}
+            >
+              <TimelineIcon />
+            </IconButton>
+          </TableCell>
+          <TableCell align='center'>
+            <IconButton
+              aria-label={`show_${indicator.codigo}`}
+              component={Link}
+              to={`/list/${indicator.codigo}`}
+            >
+              <ChevronRightIcon />
+            </IconButton>
+          </TableCell>
+        </TableRow>
+        {detailDialog === index && (
+          <CustomDialog
+            index={index}
+            key={index}
+            onClose={handleDetailDialog}
+            open={detailDialog}
+            title={indicator.nombre}
+          >
+            <Detail indicator={indicator} />
+          </CustomDialog>
+        )}
+        {chartDialog === index && (
+          <CustomDialog
+            index={index}
+            key={index + 1}
+            onClose={handleChartDialog}
+            open={chartDialog}
+            title={indicator.nombre}
+          >
+            <Chart code={indicator.codigo} />
+          </CustomDialog>
+        )}
+      </Fragment>
+    ));
   };
 
   return (
@@ -66,70 +137,7 @@ export default function IndicatorList({ indicators }) {
               </TableCellHead>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {indicators.map((indicator, index) => (
-              <Fragment key={index}>
-                <TableRow key={indicator.codigo}>
-                  <TableCell>{indicator.nombre} </TableCell>
-                  <TableCell>{indicator.unidad_medida}</TableCell>
-                  <TableCell>
-                    <Date date={indicator.fecha} />
-                  </TableCell>
-                  <TableCell align='center'>
-                    <IconButton
-                      aria-label='detail-dialog'
-                      onClick={() => {
-                        handleDetailDialog(index);
-                      }}
-                    >
-                      <InfoIcon />
-                    </IconButton>
-                  </TableCell>
-                  <TableCell align='center'>
-                    <IconButton
-                      aria-label='chart-dialog'
-                      onClick={() => {
-                        handleChartDialog(index);
-                      }}
-                    >
-                      <TimelineIcon />
-                    </IconButton>
-                  </TableCell>
-                  <TableCell align='center'>
-                    <IconButton
-                      aria-label={`show_${indicator.codigo}`}
-                      component={Link}
-                      to={`/list/${indicator.codigo}`}
-                    >
-                      <ChevronRightIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-                {detailDialog === index && (
-                  <CustomDialog
-                    index={index}
-                    key={index}
-                    onClose={handleDetailDialog}
-                    open={detailDialog}
-                    title={indicator.nombre}
-                  >
-                    <Detail indicator={indicator} />
-                  </CustomDialog>
-                )}
-                {chartDialog === index && (
-                  <CustomDialog
-                    index={index}
-                    key={index + 1}
-                    onClose={handleChartDialog}
-                    open={chartDialog}
-                    title={indicator.nombre}
-                  >
-                    <Chart code={indicator.codigo} />
-                  </CustomDialog>
-                )}
-              </Fragment>
-            ))}
-          </TableBody>
+          <TableBody>{renderList()}</TableBody>
         </Table>
       </TableContainer>
     </>

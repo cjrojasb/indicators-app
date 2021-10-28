@@ -21,8 +21,11 @@ export function useIndicators() {
     setLoading(true);
     getIndicators()
       .then((res) => {
-        console.log(res)
+        console.log(res);
         setIndicatorsValue(res);
+      })
+      .catch((error) => {
+        console.log('error', error);
       })
       .finally(() => {
         setLoading(false);

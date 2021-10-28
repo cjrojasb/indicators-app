@@ -1,9 +1,7 @@
 import axios from 'axios';
-// process.env.REACT_APP_API_URL
-let apiUrl = 'https://mindicador.cl';
 
 const client = axios.create({
-  baseURL: `${apiUrl}`,
+  baseURL: `${process.env.REACT_APP_API_URL}`,
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',

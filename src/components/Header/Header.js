@@ -1,13 +1,11 @@
 import React from 'react';
 import {
   AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
   createStyles,
   makeStyles,
+  Toolbar,
+  Typography,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -22,9 +20,6 @@ export default function Header() {
   return (
     <AppBar position='fixed' className={classes.appBar}>
       <Toolbar variant='dense'>
-        <IconButton edge='start' color='inherit' aria-label='menu'>
-          <MenuIcon />
-        </IconButton>
         <Typography variant='h6'>Indicators - App</Typography>
       </Toolbar>
     </AppBar>

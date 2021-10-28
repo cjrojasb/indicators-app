@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Bar, Line } from 'react-chartjs-2';
 import moment from 'moment';
-
 import {
   Box,
   createStyles,
@@ -28,7 +28,7 @@ const useStyles = makeStyles(() =>
 
 export default function Chart({ code }) {
   const [chartType, setChartType] = useState(0);
-  const { loading, indicator } = useIndicator(code);
+  const { loading, indicator, notFound } = useIndicator(code);
   const classes = useStyles();
   const types = [
     {
@@ -59,11 +59,13 @@ export default function Chart({ code }) {
     };
   };
 
-  const handleChartType = (event) => {
+  const handleChartType = useCallback((event) => {
     setChartType(event.target.value);
-  };
+  }, []);
 
-  if (loading || indicator.length === 0) return <Loading />;
+  if (notFound) return <Redirect to='/error' />;
+
+  if (loading || Object.keys(indicator).length === 0) return <Loading />;
 
   return (
     <Box className={classes.boxDetail}>
