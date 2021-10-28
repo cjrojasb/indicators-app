@@ -36,7 +36,7 @@ export default function Indicator({ nombre, serie, unidad_medida, ...rest }) {
 
   return (
     serie !== undefined && (
-      <TableContainer component={Paper} className={classes.my3}>
+      <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>

@@ -1,9 +1,11 @@
 import React from 'react';
 
+import { Container } from '@material-ui/core';
+
 import { useIndicator } from 'hooks/useIndicator';
 
-import Back from 'components/Shared/Back/Back';
 import Indicator from 'components/Indicator/Indicator';
+import Back from 'components/Shared/Back/Back';
 import Loading from 'components/Shared/Loading/Loading';
 import Title from 'components/Shared/Title/Title';
 
@@ -14,14 +16,16 @@ export default function ShowPage({ match }) {
 
   return (
     <>
-      <Back />
-      <Title align='center' label={indicator.nombre} variant='h4' />
-      <Indicator
-        nombre={indicator.nombre}
-        serie={indicator.serie}
-        unidad_medida={indicator.unidad_medida}
-        extraInfo={indicator}
-      />
+      <Title align='left' label={indicator.nombre} variant='h3' />
+      <Container>
+        <Back />
+        <Indicator
+          nombre={indicator.nombre}
+          serie={indicator.serie}
+          unidad_medida={indicator.unidad_medida}
+          extraInfo={indicator}
+        />
+      </Container>
     </>
   );
 }

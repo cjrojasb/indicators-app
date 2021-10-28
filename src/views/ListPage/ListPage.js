@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container} from '@material-ui/core';
+import { Container } from '@material-ui/core';
 
 import { useIndicators } from 'hooks/useIndicators';
 
@@ -14,7 +14,7 @@ export default function ListPage() {
 
   return (
     <>
-      <Title align='start' label='Listado de Indicadores' variant='h3' />
+      <Title align='left' label='Listado de Indicadores' variant='h3' />
       <Container>
         {indicators.length > 0 && <IndicatorList indicators={indicators} />}
       </Container>

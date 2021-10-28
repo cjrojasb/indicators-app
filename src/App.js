@@ -17,10 +17,12 @@ function App() {
   return (
     <section>
       <Header />
-      <Router>
-        <Route path='/list' component={ListPage} exact />
-        <Route path='/list/:code' component={ShowPage} exact />
-      </Router>
+      <section className={classes.content}>
+        <Router>
+          <Route path='/list' component={ListPage} exact />
+          <Route path='/list/:code' component={ShowPage} exact />
+        </Router>
+      </section>
       {/* <Container className={classes.customApp}>
       </Container> */}
     </section>
