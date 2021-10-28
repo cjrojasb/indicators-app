@@ -1,21 +1,24 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Container } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import styles from 'assets/jss/App/app';
-import "./App.css";
+import { createStyles, makeStyles } from '@material-ui/core';
+import './App.css';
 
 import Header from 'components/Header/Header';
 
 import ListPage from 'views/ListPage/ListPage';
 import ShowPage from 'views/ShowPage/ShowPage';
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles(() =>
+  createStyles({
+    content: {
+      padding: '48px 0',
+    },
+  })
+);
 
 function App() {
   const classes = useStyles();
-
   return (
-    <section>
+    <>
       <Header />
       <section className={classes.content}>
         <Router>
@@ -23,9 +26,7 @@ function App() {
           <Route path='/list/:code' component={ShowPage} exact />
         </Router>
       </section>
-      {/* <Container className={classes.customApp}>
-      </Container> */}
-    </section>
+    </>
   );
 }
 

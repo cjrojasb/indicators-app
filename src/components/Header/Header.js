@@ -3,7 +3,6 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Button,
   IconButton,
   createStyles,
   makeStyles,
@@ -14,7 +13,6 @@ const useStyles = makeStyles(() =>
   createStyles({
     appBar: {
       background: '#0079C8',
-      height: '70px',
     },
   })
 );
@@ -23,7 +21,7 @@ export default function Header() {
   const classes = useStyles();
   return (
     <AppBar position='fixed' className={classes.appBar}>
-      <Toolbar>
+      <Toolbar variant='dense'>
         <IconButton edge='start' color='inherit' aria-label='menu'>
           <MenuIcon />
         </IconButton>

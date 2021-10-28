@@ -14,10 +14,12 @@ import {
   withStyles,
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
+import TimelineIcon from '@material-ui/icons/Timeline';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import Detail from 'components/Detail/Detail';
-import DetailDialog from 'components/DetailDialog/DetailDialog';
+import Chart from 'components/Chart/Chart';
+import CustomDialog from 'components/CustomDialog/CustomDialog';
 import Date from 'components/Shared/Date/Date';
 
 const TableCellHead = withStyles((theme) =>
@@ -38,11 +40,16 @@ const useStyles = makeStyles({
 });
 
 export default function IndicatorList({ indicators }) {
-  const [dialog, setDialog] = useState();
+  const [detailDialog, setDetailDialog] = useState();
+  const [chartDialog, setChartDialog] = useState();
   const classes = useStyles();
 
-  const handleDialog = (value) => {
-    setDialog(dialog === value ? false : value);
+  const handleDetailDialog = (value) => {
+    setDetailDialog(detailDialog === value ? false : value);
+  };
+
+  const handleChartDialog = (value) => {
+    setChartDialog(chartDialog === value ? false : value);
   };
 
   return (
@@ -54,8 +61,8 @@ export default function IndicatorList({ indicators }) {
               <TableCellHead> Indicador</TableCellHead>
               <TableCellHead>Unidad de Medida</TableCellHead>
               <TableCellHead>Fecha</TableCellHead>
-              <TableCellHead align='center' colSpan='2'>
-                Ver Más
+              <TableCellHead align='center' colSpan='3'>
+                Acciones
               </TableCellHead>
             </TableRow>
           </TableHead>
@@ -70,12 +77,22 @@ export default function IndicatorList({ indicators }) {
                   </TableCell>
                   <TableCell align='center'>
                     <IconButton
-                      aria-label='dialog'
+                      aria-label='detail-dialog'
                       onClick={() => {
-                        handleDialog(index);
+                        handleDetailDialog(index);
                       }}
                     >
                       <InfoIcon />
+                    </IconButton>
+                  </TableCell>
+                  <TableCell align='center'>
+                    <IconButton
+                      aria-label='chart-dialog'
+                      onClick={() => {
+                        handleChartDialog(index);
+                      }}
+                    >
+                      <TimelineIcon />
                     </IconButton>
                   </TableCell>
                   <TableCell align='center'>
@@ -88,15 +105,28 @@ export default function IndicatorList({ indicators }) {
                     </IconButton>
                   </TableCell>
                 </TableRow>
-                <DetailDialog
-                  index={index}
-                  key={index + 1}
-                  onClose={handleDialog}
-                  open={dialog}
-                  title={indicator.nombre}
-                >
-                  <Detail indicator={indicator} />
-                </DetailDialog>
+                {detailDialog === index && (
+                  <CustomDialog
+                    index={index}
+                    key={index}
+                    onClose={handleDetailDialog}
+                    open={detailDialog}
+                    title={indicator.nombre}
+                  >
+                    <Detail indicator={indicator} />
+                  </CustomDialog>
+                )}
+                {chartDialog === index && (
+                  <CustomDialog
+                    index={index}
+                    key={index + 1}
+                    onClose={handleChartDialog}
+                    open={chartDialog}
+                    title={indicator.nombre}
+                  >
+                    <Chart code={indicator.codigo} />
+                  </CustomDialog>
+                )}
               </Fragment>
             ))}
           </TableBody>

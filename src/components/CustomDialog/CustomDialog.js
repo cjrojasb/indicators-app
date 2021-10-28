@@ -19,27 +19,16 @@ const useStyles = makeStyles(() =>
     },
     titleDialog: {
       fontSize: 30,
-    }
+    },
   })
 );
 
-export default function DetailDialog({
-  children,
-  index,
-  onClose,
-  open,
-  title,
-}) {
+export default function CustomDialog({ children, index, onClose, open, title }) {
   const classes = useStyles();
   return (
     <Dialog fullWidth maxWidth='md' onClose={onClose} open={open === index}>
-      <DialogTitle
-        onClose={onClose}
-        align='center'
-      >
-        <Typography className={classes.titleDialog}>
-          {title}
-        </Typography>
+      <DialogTitle onClose={onClose} align='center'>
+        <Typography className={classes.titleDialog}>{title}</Typography>
         {onClose && (
           <IconButton
             aria-label='close'
