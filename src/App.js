@@ -8,6 +8,7 @@ import { createStyles, makeStyles } from '@material-ui/core';
 import './App.css';
 
 import Header from 'components/Header/Header';
+import Footer from 'components/Footer/Footer';
 
 import ListPage from 'views/ListPage/ListPage';
 import ShowPage from 'views/ShowPage/ShowPage';
@@ -38,6 +39,7 @@ function App() {
           </Switch>
         </Router>
       </section>
+      <Footer />
     </>
   );
 }
